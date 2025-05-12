@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CS0017: El programa tiene más de un punto de entrada definido. Compile con /main para especificar el tipo que contiene el punto de entrada.
+dotnet_diagnostic.CS0017.severity = none
