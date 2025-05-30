@@ -147,6 +147,7 @@ namespace cemuModMenuForSplatoon
                 MainForm.myProcessWrapper.readProcessMemory(MainForm.ProcessPtr, p, sessionIDBytes, 4, new IntPtr(0));
 
                 string sessionHex = BitConverter.ToString(sessionIDBytes).Replace("-", "");
+                int sessionDecimal = BitConverter.ToInt32(sessionIDBytes.Reverse().ToArray(), 0); //SDL Grabber uses this
                 // sessionID.Text = sessionHex; // Do something...
             }
         }
