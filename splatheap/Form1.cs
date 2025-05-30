@@ -134,6 +134,21 @@ namespace cemuModMenuForSplatoon
                 name = name.Replace("\n", "").Replace("\r", ""); // Remove newline characters
                 nameLabels[playerID].Text = $"Player {playerID + 1}: {name}";
             }
+
+            {
+                byte[] pointer = new byte[4];
+                byte[] sessionIDBytes = new byte[4];
+                byte[] sessIDIndex = new byte[1];
+                MainForm.myProcessWrapper.readProcessMemory(MainForm.ProcessPtr, (IntPtr)MainForm.baseAddress + 0x101E8980, pointer, 4, new IntPtr(0));
+                Array.Reverse(pointer, 0, pointer.Length);
+                IntPtr p = new IntPtr(MainForm.baseAddress + BitConverter.ToInt32(pointer, 0) + 0xBD);
+                MainForm.myProcessWrapper.readProcessMemory(MainForm.ProcessPtr, p, sessIDIndex, 1, new IntPtr(0));
+                p = new IntPtr(MainForm.baseAddress + BitConverter.ToInt32(pointer, 0) + sessIDIndex[0] * 4 + 0xCC);
+                MainForm.myProcessWrapper.readProcessMemory(MainForm.ProcessPtr, p, sessionIDBytes, 4, new IntPtr(0));
+
+                string sessionHex = BitConverter.ToString(sessionIDBytes).Replace("-", "");
+                // sessionID.Text = sessionHex; // Do something...
+            }
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -147,6 +162,5 @@ namespace cemuModMenuForSplatoon
         {
             MessageBox.Show("Made by Javi (DC: javi.ig).\n\nTo use, open Splatoon on Cemu, then open this application and click the Show PID's button!");
         }
-
     }
 }   
